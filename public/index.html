@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <title>Web Speech API</title>
     <script>
+        function getUniqueStr(myStrong){
+            var strong = 1000;
+            if (myStrong) strong = myStrong;
+            return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16);
+        }
+
+        var uuid = getUniqueStr();
+        console.log(uuid);
         var flag_speech = 0;
  
         function vr_function() {

@@ -42,9 +42,7 @@
                     }
                     else
                     {
-                        var speech_content = results[i][0].transcript;
-                        document.getElementById('result_text').innerHTML = "[途中経過] " + speech_content;
-                        send_googlesheet(speech_content);
+                        document.getElementById('result_text').innerHTML = "[途中経過] " + results[i][0].transcript;
                         flag_speech = 1;
                     }
                 }

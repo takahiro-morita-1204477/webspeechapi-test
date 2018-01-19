@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Web Speech API</title>
+<script type="text/javascript" language="javascript">
+window.SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
+var recognition = new webkitSpeechRecognition();
+recognition.lang = 'ja';
+ 
+recognition.onresult = function(event){
+    var results = event.results;
+    for (var i = event.resultIndex; i<results.length; i++)
+        var speech_word = results[i][0].transcript;
+        document.getElementById('result_text').innerHTML = speech_word;
+        const request = new XMLHttpRequest();
+        request.open("GET", `https://script.google.com/macros/s/AKfycbzWM2tltkwI9OL5IItrg69f5uXtmulDvrNlAs2mjgXGVgGunTg1/exec?test=${speech_word}?callback=getjson`);
+        request.addEventListener("load", (event) => {
+            if (event.target.status !== 200) {
+                console.log(`${event.target.status}: ${event.target.statusText}`);
+                return;
+            }
+            console.log(event.target.status);
+            console.log(event.target.responseText);
+        });
+        request.addEventListener("error", () => {
+            console.error("Network Error");
+        });
+        request.send();
+}
+</script> 
+</head>
+<body>
+<textarea id="result_text" cols="100" rows="10">
+</textarea>
+<br>
+<input type="button" onClick="recognition.start();" value="音認開始">
+</body>
+</html>

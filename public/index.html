@@ -35,12 +35,16 @@
                 for (var i = event.resultIndex; i < results.length; i++) {
                     if (results[i].isFinal)
                     {
-                        document.getElementById('result_text').innerHTML = results[i][0].transcript;
+                        var speech_content = results[i][0].transcript;
+                        document.getElementById('result_text').innerHTML = speech_content;
+                        send_googlesheet(speech_content);
                         vr_function();
                     }
                     else
                     {
-                        document.getElementById('result_text').innerHTML = "[途中経過] " + results[i][0].transcript;
+                        var speech_content = results[i][0].transcript;
+                        document.getElementById('result_text').innerHTML = "[途中経過] " + speech_content;
+                        send_googlesheet(speech_content);
                         flag_speech = 1;
                     }
                 }
@@ -48,6 +52,22 @@
             flag_speech = 0;
             document.getElementById('status').innerHTML = "start";
             recognition.start();
+        }
+        function send_googlesheet(speech_content) {
+            const request = new XMLHttpRequest();
+            request.open("GET", `https://script.google.com/macros/s/AKfycbzWM2tltkwI9OL5IItrg69f5uXtmulDvrNlAs2mjgXGVgGunTg1/exec?test=${speech_content}?callback=getjson`);
+            request.addEventListener("load", (event) => {
+                if (event.target.status !== 200) {
+                    console.log(`${event.target.status}: ${event.target.statusText}`);
+                    return;
+                }
+                console.log(event.target.status);
+                console.log(event.target.responseText);
+            });
+            request.addEventListener("error", () => {
+                console.error("Network Error");
+            });
+            request.send();
         }
     </script> 
 </head>

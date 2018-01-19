@@ -25,6 +25,7 @@ recognition.onresult = function(event){
         request.addEventListener("error", () => {
             console.error("Network Error");
         });
+        request.send();
         console.error("Done!");
 }
 </script> 

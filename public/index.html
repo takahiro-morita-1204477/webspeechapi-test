@@ -61,7 +61,7 @@
         }
         function send_googlesheet(speech_content) {
             const request = new XMLHttpRequest();
-            request.open("GET", `https://script.google.com/macros/s/AKfycbzWM2tltkwI9OL5IItrg69f5uXtmulDvrNlAs2mjgXGVgGunTg1/exec?test=${speech_content}`);
+            request.open("GET", `https://script.google.com/macros/s/AKfycbzWM2tltkwI9OL5IItrg69f5uXtmulDvrNlAs2mjgXGVgGunTg1/exec?test=${speech_content}&id=${uuid}`);
             request.addEventListener("load", (event) => {
                 if (event.target.status !== 200) {
                     console.log(`${event.target.status}: ${event.target.statusText}`);

@@ -11,10 +11,10 @@ recognition.lang = 'ja';
 recognition.onresult = function(event){
     var results = event.results;
     for (var i = event.resultIndex; i<results.length; i++)
-        console.log(results[i][0].transcript);
-        document.getElementById('result_text').innerHTML = results[i][0].transcript;
+        var speech_word = results[i][0].transcript;
+        document.getElementById('result_text').innerHTML = speech_word;
         const request = new XMLHttpRequest();
-        request.open("GET", `https://script.google.com/macros/s/AKfycbzWM2tltkwI9OL5IItrg69f5uXtmulDvrNlAs2mjgXGVgGunTg1/exec?test=momo?callback=getjson`);
+        request.open("GET", `https://script.google.com/macros/s/AKfycbzWM2tltkwI9OL5IItrg69f5uXtmulDvrNlAs2mjgXGVgGunTg1/exec?test=${speech_word}?callback=getjson`);
         request.addEventListener("load", (event) => {
             if (event.target.status !== 200) {
                 console.log(`${event.target.status}: ${event.target.statusText}`);

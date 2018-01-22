@@ -63,7 +63,7 @@
         }
         function send_googlesheet(speech_content) {
             const request = new XMLHttpRequest();
-            request.open("GET", `https://script.google.com/a/g.softbank.co.jp/macros/s/AKfycbz81cCxd3uu6Gbr6ea60dUNs0oiqjFKnK8ViJO2o_XkjtZdxgU/exec?test=${speech_content}&id=${uuid}`);
+            request.open("GET", `https://script.google.com/a/g.softbank.co.jp/macros/s/AKfycbz81cCxd3uu6Gbr6ea60dUNs0oiqjFKnK8ViJO2o_XkjtZdxgU/exec?test=${speech_content}&id=${fullname}`);
             request.addEventListener("load", (event) => {
                 if (event.target.status !== 200) {
                     console.log(`${event.target.status}: ${event.target.statusText}`);
@@ -75,7 +75,7 @@
             request.addEventListener("error", () => {
                 console.error("Network Error");
             });
-            request.send('idtoken=' + id_token);
+            request.send();
         }
     </script> 
 </head>
@@ -86,6 +86,7 @@
       function onSignIn(googleUser) {
         // Useful data for your client-side scripts:
         var profile = googleUser.getBasicProfile();
+        fullname = profile.getName();
         console.log("ID: " + profile.getId()); // Don't send this directly to your server!
         console.log('Full Name: ' + profile.getName());
         console.log('Given Name: ' + profile.getGivenName());
@@ -95,7 +96,7 @@
 
         // The ID token you need to pass to your backend:
         //var id_token = googleUser.getAuthResponse().id_token;
-        id_token = googleUser.getAuthResponse().id_token;
+        var id_token = googleUser.getAuthResponse().id_token;
         console.log("ID Token: " + id_token);
       };
     </script>

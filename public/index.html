@@ -62,7 +62,7 @@
         }
         function send_googlesheet(speech_content) {
             const request = new XMLHttpRequest();
-            request.open("GET", `https://script.google.com/macros/s/AKfycbzWM2tltkwI9OL5IItrg69f5uXtmulDvrNlAs2mjgXGVgGunTg1/exec?test=${speech_content}&id=${uuid}`);
+            request.open("GET", `https://script.google.com/a/g.softbank.co.jp/macros/s/AKfycbz81cCxd3uu6Gbr6ea60dUNs0oiqjFKnK8ViJO2o_XkjtZdxgU/exec?test=${speech_content}&id=${uuid}`);
             request.addEventListener("load", (event) => {
                 if (event.target.status !== 200) {
                     console.log(`${event.target.status}: ${event.target.statusText}`);

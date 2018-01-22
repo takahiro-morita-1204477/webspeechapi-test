@@ -75,7 +75,7 @@
             request.addEventListener("error", () => {
                 console.error("Network Error");
             });
-            request.send('idtoken=eyJhbGciOiJSUzI1NiIsImtpZCI6IjRmOTVkMjkyZDFiN2U1OWJiYjZlZDc0N2E5ZDkxMzg1YWRmNmE1MmMifQ.eyJhenAiOiI0NjQ3NTU5MTAxODAtbjI1YzM2MGMzZ29lMm0yZ2g4bTA3cjI1YThzbjYzdnQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0NjQ3NTU5MTAxODAtbjI1YzM2MGMzZ29lMm0yZ2g4bTA3cjI1YThzbjYzdnQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDcxMjkxNzAwNTE3ODM2MDgzNzkiLCJoZCI6Imcuc29mdGJhbmsuY28uanAiLCJlbWFpbCI6InRha2FoaXJvLm1vcml0YUBnLnNvZnRiYW5rLmNvLmpwIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJkX0dHVG5FaERORlY4RXFObkw2WnB3IiwiZXhwIjoxNTE2NjEzODQyLCJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwianRpIjoiYWJiNWMwMzNjYjljNzQ3MmE0NDI0MDJhZmY2MjhlZWE4MjczOTEyYiIsImlhdCI6MTUxNjYxMDI0MiwibmFtZSI6IuajrueUsOWtneijlSIsInBpY3R1cmUiOiJodHRwczovL2xoNC5nb29nbGV1c2VyY29udGVudC5jb20vLVBEb3lFZHI1ZlpRL0FBQUFBQUFBQUFJL0FBQUFBQUFBQUFBL0FBNlpQVDR0OEUtbWJMbnRPZGNhTUMzSGlFWHkyNFR5Rncvczk2LWMvcGhvdG8uanBnIiwiZ2l2ZW5fbmFtZSI6IuWtneijlSIsImZhbWlseV9uYW1lIjoi5qOu55SwIiwibG9jYWxlIjoiamEifQ.XPiLD8mxDdmuQk7UdZA8P_SSwUyGK2LHE73cucq9eNmRSRyHXRQXXsul9AO1Qo6rYIYc-jTjcQM4Q3i86lHmuEz4ol-R6F8frzI4tHTV398gm1SgDRGBZutYBH1LdoDC_ZgjQh4W0WkgEuOEavzcsThsrRrDXxotedkn9EjuVFV3LKHOMrXMrzZx1hHsGhYkulXYDc2mOBj9rC3kpInpZ0DXV3pu3aZrjiBtkQ_E7CYdP4V2vWSCAJrZxyWj9NrtnaIzrowcSV60zwBHwBAdLFrmjYgEWal0sX0ODw3LMlWauZictZuFAmyAxkaKKnPxDkAAiF9o9ZSQSua5W08LrQ');
+            request.send('idtoken=' + id_token);
         }
     </script> 
 </head>
@@ -94,7 +94,8 @@
         console.log("Email: " + profile.getEmail());
 
         // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
+        //var id_token = googleUser.getAuthResponse().id_token;
+        id_token = googleUser.getAuthResponse().id_token;
         console.log("ID Token: " + id_token);
       };
     </script>

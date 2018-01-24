@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="464755910180-n25c360c3goe2m2gh8m07r25a8sn63vt.apps.googleusercontent.com">
+    <title>Web Speech API</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        function getUniqueStr(myStrong){
+            var strong = 1000;
+            if (myStrong) strong = myStrong;
+            return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16);
+        }
+        var uuid = getUniqueStr();
+        console.log(uuid);
+        var flag_speech = 0;
+ 
+        function vr_function() {
+            window.SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
+            var recognition = new webkitSpeechRecognition();
+            recognition.lang = 'ja';
+            recognition.interimResults = true;
+            recognition.continuous = true;
+ 
+            recognition.onsoundstart = function() {
+                document.getElementById('status').innerHTML = "認識中";
+            };
+            recognition.onnomatch = function() {
+                document.getElementById('status').innerHTML = "もう一度試してください";
+            };
+            recognition.onerror = function() {
+                document.getElementById('status').innerHTML = "エラー";
+                if(flag_speech == 0)
+                  vr_function();
+            };
+            recognition.onsoundend = function() {
+                document.getElementById('status').innerHTML = "停止中";
+                  vr_function();
+            };
+ 
+            recognition.onresult = function(event) {
+                var results = event.results;
+                for (var i = event.resultIndex; i < results.length; i++) {
+                    if (results[i].isFinal)
+                    {
+                        var speech_content = results[i][0].transcript;
+                        document.getElementById('result_text').innerHTML = speech_content;
+                        send_googlesheet(speech_content);
+                        vr_function();
+                    }
+                    else
+                    {
+                        document.getElementById('result_text').innerHTML = "[途中経過] " + results[i][0].transcript;
+                        flag_speech = 1;
+                    }
+                }
+            }
+            flag_speech = 0;
+            document.getElementById('status').innerHTML = "start";
+            recognition.start();
+        }
+        function send_googlesheet(speech_content) {
+            $.getJSON(`https://script.google.com/a/g.softbank.co.jp/macros/s/AKfycbz81cCxd3uu6Gbr6ea60dUNs0oiqjFKnK8ViJO2o_XkjtZdxgU/exec?test=${speech_content}&id=${fullname}&callback=?`,
+            function(data){
+              getjson(data);
+            });
+        }
+        function getjson(data) {
+          console.log("Done!");
+        }
+    </script> 
+</head>
+ 
+<body>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <script>
+      function onSignIn(googleUser) {
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        fullname = profile.getName();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        //var id_token = googleUser.getAuthResponse().id_token;
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+      };
+    </script>
+    <textarea id="result_text" cols="100" rows="10">
+    </textarea>
+    <br>
+    <textarea id="status" cols="100" rows="1">
+    </textarea>
+    <br>
+    <input type="button" onClick="vr_function();" value="音認開始">
+</body>
+ 
+</html>

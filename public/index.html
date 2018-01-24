@@ -9,13 +9,6 @@
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script> 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
-        function getUniqueStr(myStrong){
-            var strong = 1000;
-            if (myStrong) strong = myStrong;
-            return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16);
-        }
-        var uuid = getUniqueStr();
-        console.log(uuid);
         var flag_speech = 0;
  
         function vr_function() {
@@ -75,7 +68,6 @@
 </head>
  
 <body>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
     <script>
       function onSignIn(googleUser) {
         // Useful data for your client-side scripts:

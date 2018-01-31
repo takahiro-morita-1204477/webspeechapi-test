@@ -81,13 +81,14 @@
             // Current values
             var isSignedIn = auth2.isSignedIn.get();
             var currentUser = auth2.currentUser.get();
-            getprofile(currentUser);
 
             if (!isSignedIn) {
               // Rendering g-signin2 button.
               gapi.signin2.render('google-signin-button', {
                 'onsuccess': 'onSignIn'  
               });
+            } else if (isSignedIn) {
+              getprofile(currentUser);
             }
           });
         });

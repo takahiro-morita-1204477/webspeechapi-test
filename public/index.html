@@ -7,7 +7,7 @@
     <meta name="google-signin-client_id" content="464755910180-n25c360c3goe2m2gh8m07r25a8sn63vt.apps.googleusercontent.com">
     <title>Web Speech API</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onSignIn" async defer></script>
     <script>
         var flag_speech = 0;
  
@@ -67,7 +67,7 @@
     </script> 
 </head>
  
-<body onload="onSignIn();">
+<body>
     <script>
       function onSignIn(googleUser) {
         // Useful data for your client-side scripts:

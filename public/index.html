@@ -64,48 +64,46 @@
         function getjson(data) {
           console.log("Done!");
         }
+        function onSignIn(googleUser) {
+          // Useful data for your client-side scripts:
+          getprofile(googleUser);
+        }
+        function onLoad() {
+          gapi.load('auth2,signin2', function() {
+            var auth2 = gapi.auth2.init();
+            auth2.then(function() {
+              // Current values
+              var isSignedIn = auth2.isSignedIn.get();
+              var currentUser = auth2.currentUser.get();
+
+              if (!isSignedIn) {
+                // Rendering g-signin2 button.
+                gapi.signin2.render('google-signin-button', {
+                  'onsuccess': 'onSignIn'  
+                });
+              } else if (isSignedIn) {
+                getprofile(currentUser);
+              }
+            });
+          });
+        }
+        function getprofile(user) {
+          var profile = user.getBasicProfile();
+          fullname = profile.getName();
+          console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+          console.log('Full Name: ' + profile.getName());
+          console.log('Given Name: ' + profile.getGivenName());
+          console.log('Family Name: ' + profile.getFamilyName());
+          console.log("Image URL: " + profile.getImageUrl());
+          console.log("Email: " + profile.getEmail());
+          var id_token = user.getAuthResponse().id_token;
+          console.log("ID Token: " + id_token);
+        }
     </script> 
 </head>
  
 <body>
     <div id="google-signin-button"></div>
-    <script>
-      function onSignIn(googleUser) {
-        // Useful data for your client-side scripts:
-        getprofile(googleUser);
-      }
-      function onLoad() {
-        gapi.load('auth2,signin2', function() {
-          var auth2 = gapi.auth2.init();
-          auth2.then(function() {
-            // Current values
-            var isSignedIn = auth2.isSignedIn.get();
-            var currentUser = auth2.currentUser.get();
-
-            if (!isSignedIn) {
-              // Rendering g-signin2 button.
-              gapi.signin2.render('google-signin-button', {
-                'onsuccess': 'onSignIn'  
-              });
-            } else if (isSignedIn) {
-              getprofile(currentUser);
-            }
-          });
-        });
-      }
-      function getprofile(user) {
-        var profile = user.getBasicProfile();
-        fullname = profile.getName();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
-        var id_token = user.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
-      }
-    </script>
     <input type="button" onClick="vr_function();" value="音声認識開始">
     <br>
     <textarea id="result_text" cols="100" rows="10">

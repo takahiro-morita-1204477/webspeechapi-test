@@ -7,7 +7,7 @@
     <meta name="google-signin-client_id" content="464755910180-n25c360c3goe2m2gh8m07r25a8sn63vt.apps.googleusercontent.com">
     <title>Web Speech API</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
-    <script src="https://apis.google.com/js/platform.js?onload=onSignIn" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
     <script>
         var flag_speech = 0;
  
@@ -84,7 +84,24 @@
         //var id_token = googleUser.getAuthResponse().id_token;
         var id_token = googleUser.getAuthResponse().id_token;
         console.log("ID Token: " + id_token);
-      };
+      }
+      function onLoad() {
+        gapi.load('auth2,signin2', function() {
+          var auth2 = gapi.auth2.init();
+          auth2.then(function() {
+            // Current values
+            var isSignedIn = auth2.isSignedIn.get();
+            var currentUser = auth2.currentUser.get();
+
+            if (!isSignedIn) {
+              // Rendering g-signin2 button.
+              gapi.signin2.render('google-signin-button', {
+                'onsuccess': 'onSignIn'  
+              });
+            }
+          });
+        });
+      }
     </script>
     <br>
     <input type="button" onClick="vr_function();" value="音声認識開始">

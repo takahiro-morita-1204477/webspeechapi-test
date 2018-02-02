@@ -40,8 +40,9 @@
                     if (results[i].isFinal)
                     {
                         var speech_content = results[i][0].transcript;
+                        var speech_confidence = results[i][0].confidence;
                         document.getElementById('result_text').innerHTML = speech_content;
-                        send_googlesheet(speech_content);
+                        send_googlesheet(speech_content,speech_confidence);
                         vr_function();
                     }
                     else
@@ -55,8 +56,8 @@
             document.getElementById('status').innerHTML = "start";
             recognition.start();
         }
-        function send_googlesheet(speech_content) {
-            $.getJSON(`https://script.google.com/a/g.softbank.co.jp/macros/s/AKfycbz81cCxd3uu6Gbr6ea60dUNs0oiqjFKnK8ViJO2o_XkjtZdxgU/exec?test=${speech_content}&id=${fullname}&callback=?`,
+        function send_googlesheet(speech_content,speech_confidence) {
+            $.getJSON(`https://script.google.com/a/g.softbank.co.jp/macros/s/AKfycbz81cCxd3uu6Gbr6ea60dUNs0oiqjFKnK8ViJO2o_XkjtZdxgU/exec?content=${speech_content}&id=${fullname}&confidence=${speech_confidence}&callback=?`,
             function(data){
               getjson(data);
             });
